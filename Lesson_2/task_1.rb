@@ -13,10 +13,10 @@
 number = gets.chomp.to_i
 
 def get_sum(number)
-  q = 0..number
+
   sum = 0b00
-    q.each do |num|
-    sum = (sum | num)
+    (0..number).each do |num|
+      sum |= num
     end
   sum
 end
