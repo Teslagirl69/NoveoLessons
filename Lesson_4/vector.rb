@@ -22,24 +22,27 @@ class Vector
   end
 
   def add(other_vector)
-    if other_vector.nodes.size != nodes.size
-      puts ' Vectors have different length try again'
+
+   vector_nodes = if other_vector.nodes.size != nodes.size
+    return puts ' Vectors have different length try again'
     else
       result = nodes.map.with_index do |node, index|
         node + other_vector.nodes[index]
       end
 
     end
+    Vector.new(vector_nodes)
   end
 
   def subtract(vect)
-    if vect.nodes.size != nodes.size
-      puts ' Vectors have different length try again'
+     vector_nodes = if vect.nodes.size != nodes.size
+     return puts ' Vectors have different length try again'
     else
       result = nodes.map.with_index do |node, index|
         node - vect.nodes[index]
       end
     end
+    Vector.new(vector_nodes)
   end
 
   def norm
