@@ -13,17 +13,17 @@ def ranks(arr)
   maped_hash = maped_arr.group_by(&:dup)
   sorted_hash = maped_hash.sort.to_h
 
-  @arr_counts = []
-  @count = 0
+  arr_counts = []
+  count = 0
 
   sorted_hash.each_value do |v|
-    @arr_counts << @count += v.size
+    arr_counts << count += v.size
   end
 
-  @arr_counts.zip
+  arr_counts.zip
 
   transformed_hash = sorted_hash.transform_values.with_index do |value, index|
-    value.size < 2 ? value = @arr_counts[index] : value
+    value.size < 2 ? value = arr_counts[index] : value
   end
 
   ranked_hash = maped_hash.merge(transformed_hash)
