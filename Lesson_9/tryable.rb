@@ -10,7 +10,6 @@
 # Тестовые варианты
 module Tryable
   def try
-    # block.call(self)
     yield self
   rescue NoMethodError
     nil

@@ -3,9 +3,8 @@
 # Тестовые варианты
 
 def add_num(num)
-  proc do |el|
-    el + num
-  end
+  proc {|el| el + num}
+
 end
 add_num_1 = add_num(1) # proc
 puts add_num_1.class
