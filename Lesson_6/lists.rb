@@ -8,7 +8,7 @@ require 'pry'
 require_relative './node'
 
 class LinkedList
-  attr_accessor :head, :tail
+  attr_writer :head, :tail
 
   def initialize
     @head = nil
@@ -47,14 +47,15 @@ class LinkedList
   end
 
   def delete(value)
-    node = @head
+      node = @head
+      return if node.nil?
     if node.value == value
       @head = @head.next
     else
       node = @head
       node = node.next while !node.nil? && !node.next.nil? && (node.next.value != value)
 
-      node.next = node.next.next if !node.nil? && !node.next.nil?
+      node.next = node.next.next if !node.next.nil?
     end
   end
 
@@ -66,7 +67,7 @@ class LinkedList
       node = node.next
     end
     arr.push(node.value.to_s)
-    joined = arr.join('->')
+    joined = arr.join(', ')
     "Linked list is: #{joined}"
   end
 end
