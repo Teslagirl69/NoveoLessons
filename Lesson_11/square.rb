@@ -14,7 +14,7 @@ class Square
   end
 
   def square
-    @sq = @side**2
+   @side**2
   end
 end
 
@@ -25,7 +25,7 @@ class Rectangle
   end
 
   def square
-    @sq = @width * @length
+     @width * @length
   end
 end
 
@@ -36,7 +36,7 @@ class Triangle
   end
 
   def square
-    @sq = @base * @height / 2
+    @base * @height / 2
   end
 end
 
@@ -46,7 +46,7 @@ class Circle
   end
 
   def square
-    @sq = Math::PI * (@radius**2)
+    Math::PI * (@radius**2)
   end
 end
 
