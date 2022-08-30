@@ -15,18 +15,21 @@ module IndifferentAccessable
 end
 
 class Hash
-  prepend IndifferentAccessable
   def make_indifferent_accessable!
+    self.singleton_class.prepend IndifferentAccessable
     self
   end
 end
 
 hash1 = { a: 1, 'b' => 2, 1 => 3 }.make_indifferent_accessable! # можно вызвать метод так
-
 puts hash1['a'] #=> 1
 puts hash1[:b] #=> 2
 puts hash1[1] #=> 3
 
-hash2 = { d: 3, true => 'True' }
-puts hash2.make_indifferent_accessable!['d'] #=> 3 # можно и так, сразу обращаться по ключу
-puts hash2[true] #=> True
+hash2 = { z: 5, 't' => 7, 9 => 2 }
+puts hash2['z']
+
+hash3 = { d: 3, true => 'True' }
+puts hash3.make_indifferent_accessable!['d'] #=> 3 # можно и так, сразу обращаться по ключу
+puts hash3[true] #=> True
+
