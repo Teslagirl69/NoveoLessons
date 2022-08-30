@@ -8,28 +8,38 @@
 # CustomShape (площадь просто задается).
 # Пример того, как должна выполняться сортировка элементов массива, если все элементы в этом массиве - фигуры
 
-class Square
+class Shape
+  attr_reader :square
+
+  include Comparable
+
+  def <=>(other)
+    other.square <=> square
+  end
+end
+
+class Square < Shape
   def initialize(side)
     @side = side
   end
 
   def square
-   @side**2
+    @side**2
   end
 end
 
-class Rectangle
+class Rectangle < Shape
   def initialize(width, length)
     @width = width
     @length = length
   end
 
   def square
-     @width * @length
+    @width * @length
   end
 end
 
-class Triangle
+class Triangle < Shape
   def initialize(base, height)
     @base = base
     @height = height
@@ -40,7 +50,7 @@ class Triangle
   end
 end
 
-class Circle
+class Circle < Shape
   def initialize(radius)
     @radius = radius
   end
@@ -50,7 +60,7 @@ class Circle
   end
 end
 
-class CustomShape
+class CustomShape < Shape
   attr_reader :square
 
   def initialize(square)
@@ -60,4 +70,4 @@ end
 
 shapes = [Square.new(4), Rectangle.new(1, 4), Triangle.new(2, 6), Circle.new(3), CustomShape.new(11)]
 
-puts shapes.sort { |a, b| b.square <=> a.square }
+puts shapes.sort
