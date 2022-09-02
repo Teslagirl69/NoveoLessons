@@ -1,0 +1,24 @@
+ <html>
+<body>
+  <form action="/products/<%=@product[0] %>" method="POST" role="form">
+  <input type="hidden" name="_method" value="PATCH">
+
+
+<h2>Edit product here</h2>
+
+
+  <label for="name">Name:</label><br>
+  <input type="text" id="name" name="product[name]" value="<%=@product[1] %>" ><br>
+  <label for="count">Count:</label><br>
+  <input type="text" id="count" name="product[count]" value="<%=@product[2] %>"><br>
+  <label for="price">Price:</label><br>
+  <input type="text" id="price" name="product[price]" value="<%=@product[3] %>"><br>
+  <label for="creator">Creator:</label><br>
+  <input type="text" id="creator" name="product[creator]" value="<%=@product[4] %>"><br>
+   <br/>
+  </div>
+  <input type="submit" value="Edit Product">
+</form>
+
+</body>
+ </html>

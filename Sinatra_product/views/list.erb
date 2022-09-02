@@ -1,0 +1,32 @@
+<style>
+table, th, td {
+  border:1px solid black;
+}
+</style>
+<body>
+<table style="width:100%">
+<tr>
+    <%@headers.each do |header|  %>
+    <th><%= header %> </th>
+    <%end %>
+  <th> action </th>
+  </tr>
+  <%@data.each_with_index do |entry, index|  %>
+   <tr><%entry.each do |value| %>
+   <td><%= value %> </td>
+    <%end %>
+    <td>
+      <a href="/products/<%=entry[0] %>/edit">Edit</a>
+      <form action="/products/<%=entry[0] %>" method="post">
+        <div style="margin:0;padding:0">
+          <button type="submit">DELETE</button>
+          <input name="_method" type="hidden" value="delete" />
+        </div>
+      </form>
+    </td>
+  </tr>
+  <%end %>
+
+</table>
+<a href="/products/new">Make new product</a>
+ </body>
