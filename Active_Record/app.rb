@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Используя 'active_record' гем, без создания самого рейлс приложения,
 # реализовать 4 модели с соответствующими таблицами:
 #   - User. Атрибуты: username (уникальный и не может быть пустым);
@@ -16,24 +18,25 @@ require 'active_record'
 ActiveRecord::Base.establish_connection(
   adapter: 'postgresql',
   host: 'localhost',
-  username: 'tesla',
-  password: 'strong_password',
-  database: 'blonde'
+  username: ' ',
+  password: ' ',
+  database: 'test5'
 )
 
 class CreateUserTable < ActiveRecord::Migration[7.0]
   def change
-    create_table :users do |table|
-      table.string :username, null: false
+    create_table :users, if_not_exists: true do |table|
+      table.string :username, null: false, unique: true
       table.timestamps
+      table.boolean :active, null: false, default: true
     end
   end
 end
 
 class CreatePodcastTable < ActiveRecord::Migration[7.0]
   def change
-    create_table :podcasts do |table|
-      table.string :name, null: false
+    create_table :podcasts, if_not_exists: true do |table|
+      table.string :name, null: false, unique: true
       table.string :kind, null: false
       table.timestamps
     end
@@ -42,8 +45,8 @@ end
 
 class CreateNewspaperTable < ActiveRecord::Migration[7.0]
   def change
-    create_table :newspapers do |table|
-      table.string :name, null: false
+    create_table :newspapers, if_not_exists: true do |table|
+      table.string :name, null: false, unique: true
       table.string :kind, null: false
       table.timestamps
     end
@@ -52,9 +55,10 @@ end
 
 class CreateSubscriptionTable < ActiveRecord::Migration[7.0]
   def change
-    create_table :subscriptions do |table|
-      table.references :user, null: false
-      table.references :subscribable, polymorphic: true, null: false
+    create_table :subscriptions, if_not_exists: true do |table|
+      table.integer :user_id
+      table.references :subscribable, polymorphic: true
+      table.column :status, :integer, default: 0
       table.timestamps
     end
   end
@@ -66,29 +70,34 @@ CreateNewspaperTable.migrate(:up)
 CreateSubscriptionTable.migrate(:up)
 
 class User < ActiveRecord::Base
-  has_many :subscriptions, foreign_key: 'user_id', class_name: 'Subscription'
-  has_many :podcasts, source: :subscribable, through: :subscriptions, source_type: 'Podcast', class_name: 'Podcast'
-  has_many :newspapers, source: :subscribable, through: :subscriptions, source_type: 'Newspaper', class_name: 'Newspaper'
+  after_update :disable_subscriptions # callback будет вызываться при любом user update
+  has_many :subscriptions
+  has_many :podcasts, source: :subscribable, through: :subscriptions
+  has_many :newspapers, source: :subscribable, through: :subscriptions
   validates :username, presence: true, uniqueness: true
+  def disable_subscriptions
+    subscriptions.update(status: :disabled)
+  end
 end
 
 class Podcast < ActiveRecord::Base
   has_many :subscriptions, as: :subscribable
-  has_many :users, source: :user, foreign_key: 'user_id', through: :subscriptions, class_name: 'User'
+  has_many :users, source: :user, foreign_key: 'user_id', through: :subscriptions
   validates :name, presence: true, uniqueness: true
+  enum kind: { Business: 0, Dogs: 1 }
 end
 
 class Newspaper < ActiveRecord::Base
   has_many :subscriptions, as: :subscribable
-  has_many :users, source: :user, foreign_key: 'user_id', through: :subscriptions, class_name: 'User'
+  has_many :users, source: :user, foreign_key: 'user_id', through: :subscriptions
   validates :name, presence: true, uniqueness: true
+  enum kind: { Finance: 0, Fashion: 1 }
 end
 
 class Subscription < ActiveRecord::Base
-  has_many :podcasts, as: :subscribable
-  has_many :newspapers, as: :subscribable
-  belongs_to :user
+  belongs_to :user, foreign_key: 'user_id'
   belongs_to :subscribable, polymorphic: true
+  enum status: { active: 0, disabled: 1 }
 end
 
 # Потестим модельки наполним данными БД
@@ -125,3 +134,4 @@ newspaper2.users << User.find_by(username: 'Businessman')
 newspaper2.users << User.find_by(username: 'Blonde')
 newspaper2.save
 
+user3.update(active: false)
