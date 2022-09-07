@@ -1,24 +1,42 @@
  <html>
-<body>
-  <form action="/products" method="POST" role="form">
+  <head>
+   <style>
+    .submit_button{
+     display: block;
+     margin-top: 10px;
+     color: green;
+     background-color: black;
+    }
 
+    .submit_button:hover {
+        background-color: red;
+        color: black;
+    }
+    input {
+     margin-bottom: 10px;
+     background-color: lightgreen;
+    }
+   </style>
+ </head>
 
-
-<h2>Add new product here</h2>
-
-
-  <label for="name">Name:</label><br>
-  <input type="text" id="name" name="product[name]" ><br>
-  <label for="count">Count:</label><br>
-  <input type="text" id="count" name="product[count]" ><br>
-  <label for="price">Price:</label><br>
-  <input type="text" id="price" name="product[price]"><br>
-  <label for="creator">Creator:</label><br>
-  <input type="text" id="creator" name="product[creator]"><br>
-   <br/>
-  </div>
-  <input type="submit" value="Create Product">
-</form>
-
-</body>
- </html>
+  <body>
+    <form action="/products" method="POST" role="form">
+      <h2>Add new product here</h2>
+      <label for="name">Name:</label>
+      <br>
+      <input type="text" id="name" name="product[name]" >
+      <br>
+      <label for="count">Count:</label><br>
+      <input type="text" id="count" name="product[count]" >
+      <br>
+      <label for="price">Price:</label><br>
+      <input type="text" id="price" name="product[price]">
+      <br>
+      <label for="creator">Creator:</label><br>
+      <input type="text" id="creator" name="product[creator]">
+      <br>
+      <br/>
+      <input type="submit" value="Create Product" class="submit_button">
+    </form>
+  </body>
+</html>
