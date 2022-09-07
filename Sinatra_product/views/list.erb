@@ -1,32 +1,45 @@
 <style>
-table, th, td {
-  border:1px solid black;
-}
+  .tb { border-collapse: collapse; }
+  .tb th, .tb td { padding: 5px; border: solid 1px #777; font-size:90%;}
+  .tb th { background-color: lightblue; }
+  button {
+      margin-top: 10px;
+      background-color: #4CAF50;
+      width: 140px;
+      height: 30px;
+  }
+  .button1 {
+      background-color: #008CBA;
+      width: 70px;
+      height: 20px;
+  }
+  .button2 {
+      background-color: #f44336;
+      width: 70px;
+      height: 20px;
+  }
 </style>
 <body>
-<table style="width:100%">
-<tr>
-    <%@headers.each do |header|  %>
-    <th><%= header %> </th>
-    <%end %>
-  <th> action </th>
-  </tr>
-  <%@data.each_with_index do |entry, index|  %>
-   <tr><%entry.each do |value| %>
-   <td><%= value %> </td>
-    <%end %>
-    <td>
-      <a href="/products/<%=entry[0] %>/edit">Edit</a>
-      <form action="/products/<%=entry[0] %>" method="post">
-        <div style="margin:0;padding:0">
-          <button type="submit">DELETE</button>
-          <input name="_method" type="hidden" value="delete" />
-        </div>
-      </form>
-    </td>
-  </tr>
-  <%end %>
-
-</table>
-<a href="/products/new">Make new product</a>
+  <table class="tb" style="width:100%">
+    <tr>
+        <%@headers.each do |header|  %>
+        <th><%= header %> </th>
+        <% end %>
+        <th> action </th>
+      </tr>
+      <%@data.each_with_index do |entry, index|  %>
+       <tr><%entry.each do |value| %>
+       <td><%= value %> </td>
+        <% end %>
+        <td>
+          <button class="button button1", onclick="window.location.href='/products/<%=entry[0] %>/edit'">Edit</button>
+          <form action="/products/<%=entry[0] %>" method="post">
+              <button class="button button2", type="submit">Delete</button>
+              <input name="_method" type="hidden" value="delete" />
+          </form>
+        </td>
+    </tr>
+    <% end %>
+  </table>
+  <button class="button", onclick="window.location.href='/products/new'">Make new product</button>
  </body>
